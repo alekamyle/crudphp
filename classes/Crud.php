@@ -47,6 +47,41 @@ public function read(){
     return $stmt;
 }
 
+//funçao atualizar registro
+public function update($postValues){
+    $modelo = $postValues['modelo'];
+    $marca = $postValues['marca'];
+    $placa = $postValues['placa'];
+    $cor = $postValues['cor'];
+    $ano = $postValues['ano'];
+    if(empty($id) || empty($modelo)  || empty($marca)  || empty($placa)  || empty($cor)  || empty($ano)){
+        return false;
+    }
 
-}
+    $query = "UPDATE ". $this->table_name . "SET modelo = ?, marca = ?, placa = ?, cor = ?, ano = ? WHERE id = ?";
+    $stmt = $this->conn->prepare($query)
+    $stmt->bindParam(1,$modelo);
+    $stmt->bindParam(2,$marca);
+    $stmt->bindParam(3,$placa);
+    $stmt->bindParam(4,$cor);
+    $stmt->bindParam(5,$ano);
+    if($stmr->execute()){
+        return true;
+    }else{
+        return false;
+    }
+
+} 
+
+//funcao para pegar os registros do banco no furmulario
+    public function readOne($id){
+        $query = "SELECT * FROM ".$this->table_name . "WHERE id = ?";
+        $stmt =$this->conn->prepare($query);
+        $stmt->binParam(1, id);
+        $stmt->binParam();
+        return $stmt->fetch->(PDO ::FETCH_ASSOC);
+
+
+
+    }
 ?>
